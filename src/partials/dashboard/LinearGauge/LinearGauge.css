@@ -1,0 +1,34 @@
+/* LinearGauge.css */
+
+.linear-gauge {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .linear-gauge-bar {
+    background: linear-gradient(to right, #e5e7eb, #374151); /* Dégradé de couleur du clair au foncé */
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 5px;
+    position: relative;
+  }
+  
+  .linear-gauge-tick {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 2px; /* Largeur du tiret */
+    background-color: #000; /* Couleur du tiret */
+    transform: translateX(-50%);
+  }
+  
+  .linear-gauge-value {
+    position: absolute;
+    top: -20px; /* Espace entre la valeur et la jauge */
+    color: #3b82f6; /* Couleur bleu pétrole */
+    font-weight: bold; /* Texte en gras */
+  }
+  

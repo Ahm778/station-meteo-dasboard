@@ -1,0 +1,31 @@
+.footer {
+  background: transparent;
+  border-top: 1px solid var(--clr-border);
+  padding-top: 10px !important;
+  padding-bottom: 8px !important ;
+}
+.footer-copywright {
+  text-align: center !important;
+}
+
+.footer-body {
+  z-index: 1;
+  text-align: center !important;
+}
+
+@media (max-width: 767px) {
+  .footer-copywright {
+    text-align: center !important;
+  }
+
+  .footer-body {
+    text-align: center !important;
+  }
+}
+
+.footer span {
+  font-size: 1.4em;
+  color: var(--clr-txt) !important;
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+}
