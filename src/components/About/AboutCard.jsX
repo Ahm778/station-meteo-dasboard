@@ -9,20 +9,20 @@ function AboutCard() {
       <blockquote className="blockquote mb-0">
         <p className="quote-text">
         <br />
-          A <span className="primary-header">Light and Color Sensor</span> detects ambient light and color intensity.
+          A <span className="primary-header">...................</span> ...............................
           <br />
-          An <span className="primary-header">Environmental Sensor</span> measures temperature, humidity, atmospheric pressure, and air quality.
+          An <span className="primary-header">.......................</span> ..............................................................
         </p>
         <br />
        
-        <p className="sensor-title">The sensors used are:</p>
+        <p className="sensor-title">...................:</p>
         <br />
         <ul className="sensor-list">
           <li className="about-activity">
-            <AiOutlineArrowRight className="arrow-icon" /> Light and Color Sensor
+            <AiOutlineArrowRight className="arrow-icon" /> ....................
           </li>
           <li className="about-activity">
-            <AiOutlineArrowRight className="arrow-icon" /> Environmental Sensor
+            <AiOutlineArrowRight className="arrow-icon" /> ....................
           </li>
           {/* Add more sensors here if needed */}
         </ul>

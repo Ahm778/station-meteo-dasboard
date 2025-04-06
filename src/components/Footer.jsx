@@ -9,7 +9,7 @@ function Footer() {
         <Col md="4" className="footer-copywright"></Col>
         <Col md="4" className="footer-copywright">
           <span>
-          Copyright © 2024 - Application IoT{" "}
+          Copyright © 2025 - Station Météo{" "}
             <i className="primary-header"></i>
           </span>
         </Col>

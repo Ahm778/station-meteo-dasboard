@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Tilt from "react-parallax-tilt";
 import Typewriter from "typewriter-effect";
-import homeIcon from "./Assets/logo.png";
-import myImg from "./Assets/xyz.png";
+import homeIcon from "./Assets/nnj.png";
+import myImg from "./Assets/im.png";
 import "./Welcome.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from './components/Footer'; // Import du composant Footer
@@ -278,16 +278,17 @@ function Welcome() {
                         Bienvenue  👋🏻 dans notre {" "}
                       </h1>
                       <h1 className="heading-name">
-                        <strong className="main-name" >application 🌊 IoT</strong>
-                      </h1>
+  <strong className="main-name">Station 🌤️ météo    </strong>
+</h1>
+
                       <div style={{ padding: 30 }} className="type">
                         <Typewriter
                           options={{
                             strings: [
-                              "<span class='red-text'>L'application a été developpé par BEN RHAIEM AHMED et METTALI WISSAL</span>",
-                              "Application IoT pour la collecte de données maritimes",
-                              "Tableau de bord interactif pour l'analyse des données",
-                              "Visualisation graphique des données maritimes",
+                              "<span class='red-text'>L'application a été developpé par x y z w</span>",
+                              "Application IoT pour la collecte de données météorologiques",
+      "Tableau de bord interactif pour surveiller la météo",
+      "Visualisation graphique de la température, humidité, pression",
                             ],
                             autoStart: true,
                             loop: true,
@@ -317,20 +318,17 @@ function Welcome() {
       <span className="primary-header">À PROPOS DE L'APPLICATION</span> 
     </h1>
     <p className="home-about-body" style={{ paddingTop: "50px", fontSize: "1.2em", textAlign: "left" }}>
-      Notre <span className="highlight-blue" style={{ fontWeight: "bold" }}>application IoT</span> vise à collecter des <span className="highlight-blue" style={{ fontWeight: "bold" }}>données maritimes</span> à bord des navires et à les transmettre à un <span className="highlight-blue" style={{ fontWeight: "bold" }}>tableau de bord</span> de traitement pour une analyse ultérieure.
-      <br />
-      <br />
-      Les données collectées sont présentées <span className="highlight-blue" style={{ fontWeight: "bold" }}>de manière graphique</span> et intuitive sur notre <span className="highlight-blue" style={{ fontWeight: "bold" }}>tableau de bord</span>.
-      <br />
-      <br />
-      Des graphiques interactifs, des cartes géographiques et des tableaux récapitulatifs sont utilisés pour fournir une <span className="highlight-blue" style={{ fontWeight: "bold" }}>visualisation complète</span> des données.
-      <br />
-      <br />
-      Les <span className="highlight-blue" style={{ fontWeight: "bold" }}>utilisateurs</span> peuvent sélectionner les paramètres à afficher, zoomer sur des périodes spécifiques et <span className="highlight-blue" style={{ fontWeight: "bold" }}>exporter les données</span> si nécessaire.
-      <br />
-      <br />
-      Cette application a été développée par <span style={{ color: "#FF4500", fontWeight: "bold" }}>Ahmed Rhaiem</span> et <span style={{ color: "#FF4500", fontWeight: "bold" }}>Mettaly Wissal</span>, étudiants             en         <span className="highlight-blue" style={{ fontWeight: "bold" }}>troisième année de télécommunications</span>, dans le cadre de notre <span className="highlight-blue" style={{ fontWeight: "bold" }}>projet PFE</span>.
-    </p>
+  Notre <span className="highlight-blue" style={{ fontWeight: "bold" }}>application IoT</span> vise à collecter des <span className="highlight-blue" style={{ fontWeight: "bold" }}>données météorologiques</span> à partir de capteurs installés dans une station météo et à les transmettre à un <span className="highlight-blue" style={{ fontWeight: "bold" }}>tableau de bord</span> pour une surveillance en temps réel.
+  <br /><br />
+  Les données incluent la température, l'humidité, la pression atmosphérique, la vitesse du vent, etc.
+  <br /><br />
+  Elles sont présentées <span className="highlight-blue" style={{ fontWeight: "bold" }}>sous forme de graphiques</span> interactifs sur le tableau de bord.
+  <br /><br />
+  L’utilisateur peut suivre l'évolution du climat local, zoomer sur certaines périodes et <span className="highlight-blue" style={{ fontWeight: "bold" }}>exporter les données</span> si besoin.
+  <br /><br />
+  Ce projet a été réalisé dans le cadre d’un <span className="highlight-blue" style={{ fontWeight: "bold" }}>mini projet</span> par <span style={{ color: "#FF4500", fontWeight: "bold" }}>x y z</span> et <span style={{ color: "#FF4500", fontWeight: "bold" }}>w</span>, étudiants en <span className="highlight-blue" style={{ fontWeight: "bold" }}>1ING4</span>.
+</p>
+
   </Col>
                     <Col md={4} className="myAvtar" style={{ justifyContent: "center", paddingTop: "9em" }}>
                       <Tilt>
