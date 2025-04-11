@@ -1,129 +1,251 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Chart from 'chart.js/auto';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 
 function DashboardCard03() {
-  const [redValue, setRedValue] = useState(0);
-  const [greenValue, setGreenValue] = useState(0);
-  const [blueValue, setBlueValue] = useState(0);
+  const [rgbValues, setRgbValues] = useState({ r: 0, g: 0, b: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  const chartContainerRef = useRef(null);
-  const chartInstance = useRef(null);
+  const [activeChannel, setActiveChannel] = useState(null);
+  const canvasRef = useRef(null);
 
+  // Fetch RGB data
   useEffect(() => {
-    axios.get('http://localhost:3000/red')
-      .then(response => {
-        if (!response.data.red) {
-          throw new Error('Red data not available');
-        }
-        setRedValue(response.data.red);
-      })
-      .catch(error => console.error('Error fetching red data:', error));
-      
-    axios.get('http://localhost:3000/green')
-      .then(response => {
-        if (!response.data.green) {
-          throw new Error('Green data not available');
-        }
-        setGreenValue(response.data.green);
-      })
-      .catch(error => console.error('Error fetching green data:', error));
-      
-    axios.get('http://localhost:3000/blue')
-      .then(response => {
-        if (!response.data.blue) {
-          throw new Error('Blue data not available');
-        }
-        setBlueValue(response.data.blue);
-      })
-      .catch(error => console.error('Error fetching blue data:', error));
-  }, []);
+    const fetchData = async () => {
+      try {
+        const [redRes, greenRes, blueRes] = await Promise.all([
+          axios.get('http://localhost:3000/red'),
+          axios.get('http://localhost:3000/green'),
+          axios.get('http://localhost:3000/blue')
+        ]);
 
-  useEffect(() => {
-    if (chartInstance.current !== null) {
-      chartInstance.current.destroy();
-    }
-
-    const ctx = chartContainerRef.current.getContext('2d');
-
-    const pastelColor = `rgba(${redValue}, ${greenValue}, ${blueValue}, 0.7)`;
-
-    chartInstance.current = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['R', 'G', 'B'],
-        datasets: [{
-          label: 'Color (RGB)',
-          data: [redValue, greenValue, blueValue],
-          backgroundColor: pastelColor,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-          title: {
-            display: false // Supprimer le titre du graphique
-          }
-        },
-        scales: {
-          x: { display: true, grid: { display: false } },
-          y: { display: true, grid: { display: false }, ticks: { stepSize: 50 } }
-        }
-      }
-    });
-
-    return () => {
-      if (chartInstance.current !== null) {
-        chartInstance.current.destroy();
+        setRgbValues({
+          r: redRes.data?.red || 0,
+          g: greenRes.data?.green || 0,
+          b: blueRes.data?.blue || 0
+        });
+      } catch (error) {
+        console.error('Error fetching RGB data:', error);
       }
     };
-  }, [redValue, greenValue, blueValue]);
 
+    fetchData();
+    const interval = setInterval(fetchData, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Draw RGB visualization
   useEffect(() => {
-    const backgroundColor = isHovered ? 'rgb(192, 210, 225)' : '#E5EAEA';
-    document.getElementById("DashboardCard09").style.backgroundColor = backgroundColor;
-  }, [isHovered]);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw color spectrum background
+    const gradient = ctx.createLinearGradient(0, 0, width, 0);
+    gradient.addColorStop(0, 'rgba(255,0,0,0.7)');
+    gradient.addColorStop(0.5, 'rgba(0,255,0,0.7)');
+    gradient.addColorStop(1, 'rgba(0,0,255,0.7)');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, height * 0.6, width, height * 0.2);
+
+    // Draw current color indicator
+    const currentColor = `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`;
+    ctx.fillStyle = currentColor;
+    ctx.beginPath();
+    ctx.arc(
+      width * (rgbValues.r / 255) * 0.3 + width * (rgbValues.g / 255) * 0.4 + width * (rgbValues.b / 255) * 0.3,
+      height * 0.5,
+      15,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw value indicators
+    ['r', 'g', 'b'].forEach((channel, i) => {
+      const yPos = height * 0.8 + i * 30;
+      const value = rgbValues[channel];
+      const channelColor = channel === 'r' ? 'red' : channel === 'g' ? 'green' : 'blue';
+      
+      // Channel label
+      ctx.fillStyle = '#005F6A';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText(`${channel.toUpperCase()}:`, 10, yPos - 5);
+      
+      // Value bar
+      ctx.fillStyle = channelColor;
+      ctx.fillRect(40, yPos - 15, (width - 50) * (value / 255), 10);
+      
+      // Value text
+      ctx.fillStyle = '#005F6A';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText(value, 50 + (width - 50) * (value / 255), yPos - 5);
+    });
+  }, [rgbValues]);
+
+  const handleChannelHover = (channel) => {
+    setActiveChannel(channel);
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
+  const handleChannelLeave = () => {
+    setActiveChannel(null);
   };
 
-  const backgroundColor = isHovered ? 'rgb(192, 210, 225)' : '#E5EAEA';
+  // Custom color swatch component
+  const ColorSwatch = ({ color }) => (
+    <div 
+      className="rounded-lg border-2 border-white shadow-md"
+      style={{
+        width: '60px',
+        height: '60px',
+        backgroundColor: color,
+        transition: 'all 0.3s ease'
+      }}
+    />
+  );
 
   return (
-    <div 
-      id="DashboardCard09" 
-      className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 shadow-md rounded-sm border border-slate-200 dark:border-slate-700"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{ backgroundColor }}
+    <motion.div
+      className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 rounded-xl overflow-hidden border border-slate-200"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        boxShadow: isHovered ? '0 10px 25px rgba(0,0,0,0.1)' : '0 4px 6px rgba(0,0,0,0.05)'
+      }}
+      transition={{ duration: 0.3 }}
+      style={{
+        background: 'linear-gradient(145deg, #f8fafc, #f1f5f9)'
+      }}
     >
       <div className="px-5 pt-3">
-        <header className="flex justify-between items-start mb-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-	<rect width="24" height="24" fill="none" />
-	<path fill="#666060" d="M7.08 11.25A4.84 4.84 0 0 1 8 9.05L4.43 5.49A9.88 9.88 0 0 0 2 11.25zM9.05 8a4.84 4.84 0 0 1 2.2-.91V2a9.88 9.88 0 0 0-5.76 2.43zm3.7-6v5A4.84 4.84 0 0 1 15 8l3.56-3.56A9.88 9.88 0 0 0 12.75 2M8 15a4.84 4.84 0 0 1-.91-2.2H2a9.88 9.88 0 0 0 2.39 5.76zm3.25 1.92a4.84 4.84 0 0 1-2.2-.92l-3.56 3.57A9.88 9.88 0 0 0 11.25 22zM16 9.05a4.84 4.84 0 0 1 .91 2.2h5a9.88 9.88 0 0 0-2.39-5.76zM15 16a4.84 4.84 0 0 1-2.2.91v5a9.88 9.88 0 0 0 5.76-2.39zm1.92-3.25A4.84 4.84 0 0 1 16 15l3.56 3.56A9.88 9.88 0 0 0 22 12.75z" />
-</svg>
+        <header className="flex justify-between items-start mb-3">
+          <motion.div
+            animate={isHovered ? { rotate: 15, scale: 1.1 } : { rotate: 0, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="28" 
+              height="28" 
+              viewBox="0 0 24 24" 
+              fill={`rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`}
+              stroke="#005F6A" 
+              strokeWidth="2"
+            >
+              <path d="M7 2h10v4h-4v2h-2V6H7V2z" />
+              <rect x="5" y="8" width="14" height="12" rx="1" />
+              <circle cx="12" cy="14" r="2" />
+            </svg>
+          </motion.div>
+          <div className="text-right">
+            <motion.div 
+              className="text-xs font-medium text-slate-500"
+              animate={{ opacity: isHovered ? 1 : 0.7 }}
+            >
+              Live Color Data
+            </motion.div>
+            <motion.div 
+              className="text-sm font-bold"
+              style={{ color: `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})` }}
+              animate={{ scale: isHovered ? 1.05 : 1 }}
+            >
+              RGB Sensor
+            </motion.div>
+          </div>
         </header>
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2"style={{ color: '#005F6A' }}>environmental colors</h2>
-        <div className="text-xs font-semibold text-slate-600 dark:text-slate-500 uppercase mb-1"> RGB color</div>
-        <div className="flex items-start">
-          <div className="text-xl font-bold text-slate-800 dark:text-slate-100">
-            <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">Color:</span> {redValue}, {greenValue}, {blueValue}
+
+        <h2 className="text-xl font-bold mb-1 text-slate-800">Environmental Colors</h2>
+        <div className="text-sm font-medium text-slate-600 mb-4">Real-time RGB Spectrum Analysis</div>
+      </div>
+
+      <div className="flex flex-col items-center px-5 pb-0">
+        <div className="relative w-full h-30 mb-0">
+          <canvas 
+            ref={canvasRef} 
+            width={400} 
+            height={200}
+            className="w-full h-full"
+          />
+        </div>
+
+        <div className="w-full">
+          <div className="flex justify-between mb-4">
+            {['r', 'g', 'b'].map((channel) => (
+              <motion.div
+                key={channel}
+                className="flex flex-col items-center"
+                onMouseEnter={() => handleChannelHover(channel)}
+                onMouseLeave={handleChannelLeave}
+                animate={{
+                  scale: activeChannel === channel ? 1.1 : 1,
+                  opacity: activeChannel && activeChannel !== channel ? 0.7 : 1
+                }}
+              >
+                <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2"
+                  style={{
+                    backgroundColor: channel === 'r' ? 'rgba(255,0,0,0.2)' : 
+                                      channel === 'g' ? 'rgba(0,255,0,0.2)' : 
+                                      'rgba(0,0,255,0.2)',
+                    border: `2px solid ${channel === 'r' ? 'red' : channel === 'g' ? 'green' : 'blue'}`
+                  }}
+                >
+                  <span className="font-bold" style={{ 
+                    color: channel === 'r' ? 'red' : channel === 'g' ? 'green' : 'blue' 
+                  }}>
+                    {rgbValues[channel]}
+                  </span>
+                </div>
+                <span className="text-xs font-semibold uppercase" style={{ 
+                  color: channel === 'r' ? 'red' : channel === 'g' ? 'green' : 'blue' 
+                }}>
+                  {channel.toUpperCase()}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-6">
+            <div className="flex items-center justify-center mb-3">
+              <ColorSwatch 
+                color={`rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`} 
+              />
+              <div className="ml-4">
+                <div className="text-sm font-medium text-slate-600">Current Color</div>
+                <div className="text-lg font-bold" style={{ 
+                  color: `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})` 
+                }}>
+                  RGB({rgbValues.r}, {rgbValues.g}, {rgbValues.b})
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div 
-        className="flex justify-center items-center flex-grow max-sm:max-h-[128px] xl:max-h-[128px] py-3"
-        style={{ backgroundColor }}
-      >
-        <canvas ref={chartContainerRef} />
-      </div>
-    </div>
+
+      <motion.div 
+        className="h-2 w-full"
+        style={{ backgroundColor: `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})` }}
+        animate={{
+          opacity: [0.6, 1, 0.6]
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity
+        }}
+      />
+    </motion.div>
   );
 }
 

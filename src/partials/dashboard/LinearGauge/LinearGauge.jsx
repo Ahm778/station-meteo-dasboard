@@ -1,7 +1,7 @@
 // LinearGauge.jsx
 
 import React from 'react';
-import './LinearGauge.css';
+
 
 function LinearGauge({ value, min, max }) {
   const calculatePercentage = () => {
@@ -21,7 +21,7 @@ function LinearGauge({ value, min, max }) {
         ></div>
       </div>
       <div className="linear-gauge-value" style={valuePosition}>
-        {value} hPa
+        {value} hPaa
       </div>
     </div>
   );

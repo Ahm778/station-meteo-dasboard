@@ -309,50 +309,249 @@ function Welcome() {
                 </Container>
               </Container>
             </Container>
-            <Container fluid className="home-about-section" id="about">
-              <Container fluid className="home-about-section" id="about" style={{ position: "relative", paddingBottom: "70px", paddingTop: "70px", backgroundColor: "var(--clr-bg-alt)" }}>
-                <Container>
-                  <Row>
-                  <Col md={8} className="home-about-description" style={{ color: "var(--clr-txt)", paddingTop: "100px", paddingBottom: "20px", textAlign: "center" }}>
-    <h1 style={{ fontSize: "2.6em" }} data-aos="fade-right">
-      <span className="primary-header">À PROPOS DE L'APPLICATION</span> 
-    </h1>
-    <p className="home-about-body" style={{ paddingTop: "50px", fontSize: "1.2em", textAlign: "left" }}>
-  Notre <span className="highlight-blue" style={{ fontWeight: "bold" }}>application IoT</span> vise à collecter des <span className="highlight-blue" style={{ fontWeight: "bold" }}>données météorologiques</span> à partir de capteurs installés dans une station météo et à les transmettre à un <span className="highlight-blue" style={{ fontWeight: "bold" }}>tableau de bord</span> pour une surveillance en temps réel.
-  <br /><br />
-  Les données incluent la température, l'humidité, la pression atmosphérique, la vitesse du vent, etc.
-  <br /><br />
-  Elles sont présentées <span className="highlight-blue" style={{ fontWeight: "bold" }}>sous forme de graphiques</span> interactifs sur le tableau de bord.
-  <br /><br />
-  L’utilisateur peut suivre l'évolution du climat local, zoomer sur certaines périodes et <span className="highlight-blue" style={{ fontWeight: "bold" }}>exporter les données</span> si besoin.
-  <br /><br />
-  Ce projet a été réalisé dans le cadre d’un <span className="highlight-blue" style={{ fontWeight: "bold" }}>mini projet</span> par <span style={{ color: "#FF4500", fontWeight: "bold" }}>x y z</span> et <span style={{ color: "#FF4500", fontWeight: "bold" }}>w</span>, étudiants en <span className="highlight-blue" style={{ fontWeight: "bold" }}>1ING4</span>.
-</p>
+            <Container fluid className="home-about-section" id="about" style={{ 
+  position: "relative", 
+  padding: "100px 0",
+  backgroundColor: "var(--clr-bg-alt)",
+  overflow: "hidden"
+}}>
+  {/* Background decorative elements */}
+  <div style={{
+    position: "absolute",
+    top: "-50px",
+    right: "-50px",
+    width: "300px",
+    height: "300px",
+    borderRadius: "50%",
+    background: "radial-gradient(circle, rgba(100,149,237,0.15) 0%, rgba(0,0,0,0) 70%)",
+    zIndex: 0
+  }}></div>
+  
+  <div style={{
+    position: "absolute",
+    bottom: "20px",
+    left: "-100px",
+    width: "400px",
+    height: "400px",
+    borderRadius: "50%",
+    background: "radial-gradient(circle, rgba(70,130,180,0.1) 0%, rgba(0,0,0,0) 70%)",
+    zIndex: 0
+  }}></div>
 
-  </Col>
-                    <Col md={4} className="myAvtar" style={{ justifyContent: "center", paddingTop: "9em" }}>
-                      <Tilt>
-                        <img
-                          data-aos="fade-left"
-                          src={myImg}
-                          className="img-fluid"
-                          alt="avatar"
-                        />
-                      </Tilt>
-                    </Col>
-                  </Row>
+  <Container style={{ position: "relative", zIndex: 1 }}>
+    <Row className="align-items-center">
+      <Col md={8} className="home-about-description" style={{ 
+        color: "var(--clr-txt)", 
+        padding: "50px 0"
+      }}>
+        <h1 style={{ 
+          fontSize: "3rem", 
+          fontWeight: 700,
+          marginBottom: "2rem",
+          background: "linear-gradient(90deg, #1e90ff, #00bfff)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          textAlign: "left"
+        }} data-aos="fade-right">
+          À PROPOS DE <span style={{ fontStyle: "italic" }}>MARINE SENSE</span>
+        </h1>
+        
+        <div className="about-features" style={{ 
+          backgroundColor: "rgba(30, 144, 255, 0.05)",
+          borderRadius: "20px",
+          padding: "30px",
+          borderLeft: "4px solid #1e90ff",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)"
+        }}>
+          <p className="home-about-body" style={{ 
+            fontSize: "1.1rem", 
+            lineHeight: "1.8",
+            textAlign: "left",
+            position: "relative"
+          }}>
+            <span style={{
+              position: "absolute",
+              left: "-25px",
+              top: "0",
+              fontSize: "2rem",
+              color: "#1e90ff"
+            }}>❝</span>
+            
+            Notre <span className="highlight" style={{ 
+              fontWeight: 600,
+              color: "#1e90ff",
+              position: "relative",
+              display: "inline-block"
+            }}>
+              <span style={{
+                position: "absolute",
+                bottom: "2px",
+                left: 0,
+                width: "100%",
+                height: "8px",
+                backgroundColor: "rgba(30, 144, 255, 0.2)",
+                zIndex: -1,
+                transform: "skewX(-15deg)"
+              }}></span>
+              plateforme IoT marine
+            </span> révolutionne la collecte de <span className="highlight" style={{ 
+              fontWeight: 600,
+              color: "#1e90ff"
+            }}>données environnementales</span> grâce à un réseau de capteurs intelligents déployés en milieu maritime.
+            
+            <div style={{ 
+              display: "flex", 
+              flexWrap: "wrap",
+              gap: "15px",
+              margin: "25px 0"
+            }}>
+              {['Température', 'Humidité', 'Pression', 'Luminosité', 'Qualité air', 'CO2', 'VOC'].map((item, index) => (
+                <span key={index} style={{
+                  backgroundColor: "rgba(30, 144, 255, 0.1)",
+                  color: "#1e90ff",
+                  padding: "5px 15px",
+                  borderRadius: "20px",
+                  fontSize: "0.9rem",
+                  fontWeight: 500,
+                  border: "1px solid rgba(30, 144, 255, 0.3)"
+                }}>
+                  {item}
+                </span>
+              ))}
+            </div>
 
-                  <Row>
-                    <Col md={12} className="home-about-social" style={{ textAlign: "center", paddingTop: "25px", color: "var(--clr-txt)" }}>
-                      <p>
-                        <Button variant="primary" href="/dashboard">
-                          Accéder à mon dashboard
-                        </Button>
-                      </p>
-                    </Col>
-                  </Row>
-                </Container>
-              </Container>
+            Les données sont visualisées en temps réel sur un <span className="highlight" style={{ 
+              fontWeight: 600,
+              color: "#1e90ff"
+            }}>tableau de bord interactif</span> permettant une analyse approfondie avec des outils de zoom, de comparaison historique et d'export avancé.
+            
+            <div style={{ 
+              marginTop: "30px",
+              padding: "20px",
+              backgroundColor: "rgba(255, 69, 0, 0.05)",
+              borderRadius: "15px",
+              borderLeft: "3px solid #FF4500"
+            }}>
+              Projet développé par <span style={{ 
+                fontWeight: 700, 
+                color: "#FF4500",
+                textDecoration: "underline",
+                textUnderlineOffset: "3px"
+              }}>XYZ</span> et <span style={{ 
+                fontWeight: 700, 
+                color: "#FF4500",
+                textDecoration: "underline",
+                textUnderlineOffset: "3px"
+              }}>W</span>, étudiants en <span style={{ 
+                fontWeight: 600, 
+                color: "#1e90ff"
+              }}>1ING4</span>, dans le cadre d'un projet d'innovation technologique.
+            </div>
+          </p>
+        </div>
+      </Col>
+
+      <Col md={4} style={{ 
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "50px 0"
+      }}>
+        <Tilt 
+          tiltReverse={true}
+          tiltMaxAngleX={10}
+          tiltMaxAngleY={10}
+          perspective={1000}
+          scale={1.05}
+          transitionSpeed={2000}
+          gyroscope={true}
+        >
+          <div style={{
+            position: "relative",
+            borderRadius: "20px",
+            overflow: "hidden",
+            boxShadow: "0 25px 50px -12px rgba(30, 144, 255, 0.25)",
+            transformStyle: "preserve-3d",
+            border: "1px solid rgba(255, 255, 255, 0.1)"
+          }}>
+            <img
+              data-aos="fade-left"
+              src={myImg}
+              className="img-fluid"
+              alt="Station météo IoT"
+              style={{
+                borderRadius: "20px",
+                transform: "translateZ(30px)",
+                filter: "drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2))"
+              }}
+            />
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              background: "linear-gradient(transparent, rgba(0, 0, 0, 0.7))",
+              padding: "20px",
+              color: "white",
+              textAlign: "center",
+              fontSize: "1.1rem",
+              fontWeight: 500
+            }}>
+              Station météo connectée
+            </div>
+          </div>
+        </Tilt>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col md={12} style={{ 
+        textAlign: "center", 
+        marginTop: "50px"
+      }}>
+        <Button 
+          variant="primary" 
+          href="/dashboard"
+          style={{
+            padding: "12px 30px",
+            fontSize: "1.1rem",
+            fontWeight: 600,
+            borderRadius: "50px",
+            background: "linear-gradient(135deg, #1e90ff, #00bfff)",
+            border: "none",
+            boxShadow: "0 4px 15px rgba(30, 144, 255, 0.4)",
+            position: "relative",
+            overflow: "hidden",
+            transition: "all 0.3s ease",
+            zIndex: 1
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = "translateY(-3px)";
+            e.target.style.boxShadow = "0 7px 20px rgba(30, 144, 255, 0.6)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = "translateY(0)";
+            e.target.style.boxShadow = "0 4px 15px rgba(30, 144, 255, 0.4)";
+          }}
+        >
+          <span style={{ position: "relative", zIndex: 2 }}>
+            Explorer le dashboard
+          </span>
+          <span style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "linear-gradient(135deg, #00bfff, #1e90ff)",
+            opacity: 0,
+            transition: "opacity 0.3s ease",
+            zIndex: 0
+          }}></span>
+        </Button>
+      </Col>
+    </Row>
+  </Container>
             </Container>
           </section>
         </div>
